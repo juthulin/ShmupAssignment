@@ -1,0 +1,8 @@
+
+namespace JT 
+{
+	public interface #SCRIPTNAME# 
+	{
+	
+	}
+}
