@@ -25,6 +25,30 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shooting"",
+                    ""type"": ""Button"",
+                    ""id"": ""f90faa5b-04df-4a3c-b637-d402b30ac6bc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MouseDeltaX"",
+                    ""type"": ""Value"",
+                    ""id"": ""f18060e6-253b-4e7c-8b53-f29ac2d482b7"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MouseRightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ff76e91-9181-4478-9e68-8fd09eb20e09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -45,7 +69,7 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -56,7 +80,7 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -67,7 +91,7 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -78,19 +102,52 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
-                    ""id"": ""07af34cb-bf34-4702-aa1f-b7bc1b6491fd"",
-                    ""path"": ""<Mouse>/delta"",
+                    ""id"": ""418a22aa-6b42-44db-9230-36d9b6bd23a8"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Mouse"",
-                    ""action"": ""Movement"",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Shooting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ba0e2f6-9590-4b02-a18f-09f570a29655"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Shooting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11e53887-2cd9-425b-b0a8-ee9a6bfbb9f3"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""MouseDeltaX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""267f3c72-13d9-4682-ae0b-2888647cd468"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""MouseRightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -99,20 +156,14 @@ public class @MainInput : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""Keyboard"",
-            ""bindingGroup"": ""Keyboard"",
+            ""name"": ""Keyboard & Mouse"",
+            ""bindingGroup"": ""Keyboard & Mouse"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Mouse"",
-            ""bindingGroup"": ""Mouse"",
-            ""devices"": [
+                },
                 {
                     ""devicePath"": ""<Mouse>"",
                     ""isOptional"": false,
@@ -136,6 +187,9 @@ public class @MainInput : IInputActionCollection, IDisposable
         // MainScene
         m_MainScene = asset.FindActionMap("MainScene", throwIfNotFound: true);
         m_MainScene_Movement = m_MainScene.FindAction("Movement", throwIfNotFound: true);
+        m_MainScene_Shooting = m_MainScene.FindAction("Shooting", throwIfNotFound: true);
+        m_MainScene_MouseDeltaX = m_MainScene.FindAction("MouseDeltaX", throwIfNotFound: true);
+        m_MainScene_MouseRightClick = m_MainScene.FindAction("MouseRightClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -186,11 +240,17 @@ public class @MainInput : IInputActionCollection, IDisposable
     private readonly InputActionMap m_MainScene;
     private IMainSceneActions m_MainSceneActionsCallbackInterface;
     private readonly InputAction m_MainScene_Movement;
+    private readonly InputAction m_MainScene_Shooting;
+    private readonly InputAction m_MainScene_MouseDeltaX;
+    private readonly InputAction m_MainScene_MouseRightClick;
     public struct MainSceneActions
     {
         private @MainInput m_Wrapper;
         public MainSceneActions(@MainInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_MainScene_Movement;
+        public InputAction @Shooting => m_Wrapper.m_MainScene_Shooting;
+        public InputAction @MouseDeltaX => m_Wrapper.m_MainScene_MouseDeltaX;
+        public InputAction @MouseRightClick => m_Wrapper.m_MainScene_MouseRightClick;
         public InputActionMap Get() { return m_Wrapper.m_MainScene; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -203,6 +263,15 @@ public class @MainInput : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMovement;
+                @Shooting.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnShooting;
+                @Shooting.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnShooting;
+                @Shooting.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnShooting;
+                @MouseDeltaX.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseDeltaX;
+                @MouseDeltaX.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseDeltaX;
+                @MouseDeltaX.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseDeltaX;
+                @MouseRightClick.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseRightClick;
+                @MouseRightClick.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseRightClick;
+                @MouseRightClick.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseRightClick;
             }
             m_Wrapper.m_MainSceneActionsCallbackInterface = instance;
             if (instance != null)
@@ -210,26 +279,26 @@ public class @MainInput : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Shooting.started += instance.OnShooting;
+                @Shooting.performed += instance.OnShooting;
+                @Shooting.canceled += instance.OnShooting;
+                @MouseDeltaX.started += instance.OnMouseDeltaX;
+                @MouseDeltaX.performed += instance.OnMouseDeltaX;
+                @MouseDeltaX.canceled += instance.OnMouseDeltaX;
+                @MouseRightClick.started += instance.OnMouseRightClick;
+                @MouseRightClick.performed += instance.OnMouseRightClick;
+                @MouseRightClick.canceled += instance.OnMouseRightClick;
             }
         }
     }
     public MainSceneActions @MainScene => new MainSceneActions(this);
-    private int m_KeyboardSchemeIndex = -1;
-    public InputControlScheme KeyboardScheme
+    private int m_KeyboardMouseSchemeIndex = -1;
+    public InputControlScheme KeyboardMouseScheme
     {
         get
         {
-            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
-            return asset.controlSchemes[m_KeyboardSchemeIndex];
-        }
-    }
-    private int m_MouseSchemeIndex = -1;
-    public InputControlScheme MouseScheme
-    {
-        get
-        {
-            if (m_MouseSchemeIndex == -1) m_MouseSchemeIndex = asset.FindControlSchemeIndex("Mouse");
-            return asset.controlSchemes[m_MouseSchemeIndex];
+            if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard & Mouse");
+            return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
     private int m_GamePadSchemeIndex = -1;
@@ -244,5 +313,8 @@ public class @MainInput : IInputActionCollection, IDisposable
     public interface IMainSceneActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnShooting(InputAction.CallbackContext context);
+        void OnMouseDeltaX(InputAction.CallbackContext context);
+        void OnMouseRightClick(InputAction.CallbackContext context);
     }
 }
