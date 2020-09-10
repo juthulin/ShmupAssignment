@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace JT 
@@ -7,11 +9,18 @@ namespace JT
 	{
 		private Transform _thisTransform;
 		private Coroutine _lastRoutine = null;
+		private IWeapon _currentWeapon;
+		private List<IWeapon> _weapons = new List<IWeapon>();
+		[SerializeField] private Transform firePoint;
 		[SerializeField] private Rigidbody2D spinnerRigidbody;
 		[SerializeField, Range(1f, 10f)] private float torqueMultiplier = 1f;
 		[SerializeField, Range(500f, 5000f)] private float maxAngularVelocity = 2500f;
 		[SerializeField, Range(-500f, -100f)] private float minAngularVelocity = -250f;
 		[SerializeField] private float shotStoppingForce = 10f;
+
+		public int currentAmmoCount;
+		public int maxAmmoCount;
+		private bool canReload = false;
 		
 		public bool RightMButtonIsHeld { get; set; }
 
@@ -20,6 +29,8 @@ namespace JT
 		private void Awake()
 		{
 			_thisTransform = transform;
+			currentAmmoCount = maxAmmoCount;
+			_weapons.Add(_currentWeapon);
 		}
 
 		private void Update()
@@ -39,13 +50,24 @@ namespace JT
 			{
 				spinnerRigidbody.angularVelocity = minAngularVelocity;
 			}
+
+			if (currentAmmoCount < maxAmmoCount)
+			{
+				canReload = true;
+			}
+			
+			if(spinnerRigidbody.angularVelocity < -300f && canReload)
+			{
+				currentAmmoCount = maxAmmoCount;
+				canReload = false;
+			}
 		}
 
 		public void CheckToFireWeapon(bool shouldFire)
 		{
 			if (shouldFire)
 			{
-				_lastRoutine = StartCoroutine(FireWeapon());
+				
 			}
 			else
 			{
@@ -57,8 +79,8 @@ namespace JT
 		{
 			string itemTag = "PlayerBullet";
 			GameObject bullet = ObjectPooler.Instance.GetPooledObject(itemTag);
-			bullet.transform.position = _thisTransform.position;
-			bullet.transform.rotation = _thisTransform.rotation;
+			bullet.transform.position = firePoint.position;
+			bullet.transform.rotation = firePoint.rotation;
 			bullet.SetActive(true);
 		}
 
@@ -70,23 +92,24 @@ namespace JT
 			}
 		}
 
-		private IEnumerator FireWeapon()
-		{
-			while (true)
-			{
-				float waitBetweenShots;
-				if (spinnerRigidbody.angularVelocity > 50f)
-				{
-					ShootBullet();
-					spinnerRigidbody.angularVelocity -= shotStoppingForce;
-					waitBetweenShots = 60f / (spinnerRigidbody.angularVelocity * 0.5f);
-				}
-				else
-				{
-					waitBetweenShots = 0.1f;
-				}
-				yield return new WaitForSeconds(waitBetweenShots);
-			}
-		}
+		// private IEnumerator FireWeapon()
+		// {
+		// 	while (true)
+		// 	{
+		// 		float waitBetweenShots;
+		// 		if (spinnerRigidbody.angularVelocity > 50f && currentAmmoCount > 0)
+		// 		{
+		// 			ShootBullet();
+		// 			currentAmmoCount--;
+		// 			spinnerRigidbody.angularVelocity -= shotStoppingForce;
+		// 			waitBetweenShots = 60f / (spinnerRigidbody.angularVelocity * 0.5f);
+		// 		}
+		// 		else
+		// 		{
+		// 			waitBetweenShots = 0.1f;
+		// 		}
+		// 		yield return new WaitForSeconds(waitBetweenShots);
+		// 	}
+		// }
 	}
 }
