@@ -1,115 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace JT 
 {
-	public class PlayerShooting : MonoBehaviour
+	public class ShootingBehaviour : MonoBehaviour
 	{
-		private Transform _thisTransform;
-		private Coroutine _lastRoutine = null;
+		//private Transform _thisTransform;
 		private IWeapon _currentWeapon;
-		private List<IWeapon> _weapons = new List<IWeapon>();
-		[SerializeField] private Transform firePoint;
-		[SerializeField] private Rigidbody2D spinnerRigidbody;
-		[SerializeField, Range(1f, 10f)] private float torqueMultiplier = 1f;
-		[SerializeField, Range(500f, 5000f)] private float maxAngularVelocity = 2500f;
-		[SerializeField, Range(-500f, -100f)] private float minAngularVelocity = -250f;
-		[SerializeField] private float shotStoppingForce = 10f;
+		private readonly List<WeaponType> _weapons = new List<WeaponType>();
+		[SerializeField] private WeaponContainer weaponContainer;
 
-		public int currentAmmoCount;
-		public int maxAmmoCount;
-		private bool canReload = false;
-		
-		public bool RightMButtonIsHeld { get; set; }
-
-		public float displayTorque;
+		//public bool RightMButtonIsHeld { get; set; }
 
 		private void Awake()
 		{
-			_thisTransform = transform;
-			currentAmmoCount = maxAmmoCount;
-			_weapons.Add(_currentWeapon);
-		}
-
-		private void Update()
-		{
-			spinnerRigidbody.transform.position = _thisTransform.position;
-			
-			//---Remove---v
-			displayTorque = spinnerRigidbody.angularVelocity;
-			//---Remove---^
-			
-			if (spinnerRigidbody.angularVelocity > maxAngularVelocity)
-			{
-				spinnerRigidbody.angularVelocity = maxAngularVelocity;
-			}
-
-			if (spinnerRigidbody.angularVelocity < minAngularVelocity)
-			{
-				spinnerRigidbody.angularVelocity = minAngularVelocity;
-			}
-
-			if (currentAmmoCount < maxAmmoCount)
-			{
-				canReload = true;
-			}
-			
-			if(spinnerRigidbody.angularVelocity < -300f && canReload)
-			{
-				currentAmmoCount = maxAmmoCount;
-				canReload = false;
-			}
+			//_thisTransform = transform;
+			_weapons.Add(WeaponType.DefaultBlaster);
+			EquipWeapon(_weapons[0]);
 		}
 
 		public void CheckToFireWeapon(bool shouldFire)
 		{
 			if (shouldFire)
 			{
-				
-			}
-			else
-			{
-				StopCoroutine(_lastRoutine);
+				_currentWeapon?.Shoot();
 			}
 		}
 
-		private void ShootBullet()
+		private void EquipWeapon(WeaponType weaponType)
 		{
-			string itemTag = "PlayerBullet";
-			GameObject bullet = ObjectPooler.Instance.GetPooledObject(itemTag);
-			bullet.transform.position = firePoint.position;
-			bullet.transform.rotation = firePoint.rotation;
-			bullet.SetActive(true);
-		}
-
-		public void RotateSpinner(float torque)
-		{
-			if (RightMButtonIsHeld)
+			GameObject weapon = ((MonoBehaviour) _currentWeapon)?.gameObject;
+			if(weapon != null)
 			{
-				spinnerRigidbody.AddTorque(torque * torqueMultiplier);
+				Destroy(weapon);
 			}
+
+			_currentWeapon = Instantiate(weaponContainer.GetWeapon(weaponType), transform, false).GetComponent<IWeapon>();
 		}
 
-		// private IEnumerator FireWeapon()
-		// {
-		// 	while (true)
-		// 	{
-		// 		float waitBetweenShots;
-		// 		if (spinnerRigidbody.angularVelocity > 50f && currentAmmoCount > 0)
-		// 		{
-		// 			ShootBullet();
-		// 			currentAmmoCount--;
-		// 			spinnerRigidbody.angularVelocity -= shotStoppingForce;
-		// 			waitBetweenShots = 60f / (spinnerRigidbody.angularVelocity * 0.5f);
-		// 		}
-		// 		else
-		// 		{
-		// 			waitBetweenShots = 0.1f;
-		// 		}
-		// 		yield return new WaitForSeconds(waitBetweenShots);
-		// 	}
-		// }
+		public void PickUpWeapon(WeaponType weaponType)
+		{
+			if(_weapons.Contains(weaponType))
+			{
+				return;
+			}
+			_weapons.Add(weaponType);
+			EquipWeapon(_weapons[_weapons.Count -1]);
+		}
+
+		public void SwitchWeapon(bool cyclePositive)
+		{
+			if (_currentWeapon == null)
+			{
+				EquipWeapon(_weapons[0]);
+				return;
+			}
+			
+			int currentWeaponIndex = _weapons.IndexOf(_currentWeapon.WeaponType);
+			
+			EquipWeapon(cyclePositive
+				? _weapons[(currentWeaponIndex + 1) % _weapons.Count]
+				: _weapons[currentWeaponIndex == 0 ? _weapons.Count - 1 : currentWeaponIndex - 1]);
+		}
 	}
 }

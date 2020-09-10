@@ -7,7 +7,7 @@ namespace JT
 	{
 		private MainInput _controls;
 		[SerializeField] private MovementController movementController;
-		[SerializeField] private PlayerShooting playerShooting;
+		[SerializeField] private ShootingBehaviour shootingBehaviour;
 
 		private void Awake()
 		{
@@ -17,11 +17,13 @@ namespace JT
 			_controls.MainScene.Movement.canceled += PlayerMovement;
 			_controls.MainScene.Shooting.performed += Shooting;
 			_controls.MainScene.Shooting.canceled += Shooting;
-			_controls.MainScene.MouseDeltaX.performed += MouseDeltaX;
-			_controls.MainScene.MouseDeltaX.canceled += MouseDeltaX;
-			_controls.MainScene.MouseRightClick.performed += RightClick;
-			_controls.MainScene.MouseRightClick.canceled += RightClick;
-			
+			// _controls.MainScene.MouseDeltaX.performed += MouseDeltaX;
+			// _controls.MainScene.MouseDeltaX.canceled += MouseDeltaX;
+			// _controls.MainScene.MouseRightClick.performed += RightClick;
+			// _controls.MainScene.MouseRightClick.canceled += RightClick;
+			_controls.MainScene.SwitchWeaponPositive.performed += SwitchWeaponPositive;
+			_controls.MainScene.SwitchWeaponNegative.performed += SwitchWeaponNegative;
+
 			_controls.Enable();
 		}
 
@@ -37,17 +39,27 @@ namespace JT
 
 		private void Shooting(InputAction.CallbackContext context)
 		{
-			playerShooting.CheckToFireWeapon(context.ReadValueAsButton());
+			shootingBehaviour.CheckToFireWeapon(context.ReadValueAsButton());
 		}
 
-		private void MouseDeltaX(InputAction.CallbackContext context)
+		// private void MouseDeltaX(InputAction.CallbackContext context)
+		// {
+		// 	shootingBehaviour.RotateSpinner(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
+		// }
+
+		// private void RightClick(InputAction.CallbackContext context)
+		// {
+		// 	shootingBehaviour.RightMButtonIsHeld = context.ReadValueAsButton();
+		// }
+
+		private void SwitchWeaponPositive(InputAction.CallbackContext context)
 		{
-			playerShooting.RotateSpinner(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
+			shootingBehaviour.SwitchWeapon(true);
 		}
 
-		private void RightClick(InputAction.CallbackContext context)
+		private void SwitchWeaponNegative(InputAction.CallbackContext context)
 		{
-			playerShooting.RightMButtonIsHeld = context.ReadValueAsButton();
+			shootingBehaviour.SwitchWeapon(false);
 		}
 
 		private void OnDisable()

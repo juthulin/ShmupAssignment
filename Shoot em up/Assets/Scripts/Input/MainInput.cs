@@ -49,6 +49,22 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchWeaponPositive"",
+                    ""type"": ""Button"",
+                    ""id"": ""9853984c-181e-45b8-b173-629ccd3a023f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchWeaponNegative"",
+                    ""type"": ""Button"",
+                    ""id"": ""e89e12db-27b6-4357-a9a6-d8d07a5bbbab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -150,6 +166,28 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""action"": ""MouseRightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af266b29-184c-4644-ba67-99121cc87006"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""SwitchWeaponPositive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b153004-e525-45c7-872a-0292983b35c3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchWeaponNegative"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -190,6 +228,8 @@ public class @MainInput : IInputActionCollection, IDisposable
         m_MainScene_Shooting = m_MainScene.FindAction("Shooting", throwIfNotFound: true);
         m_MainScene_MouseDeltaX = m_MainScene.FindAction("MouseDeltaX", throwIfNotFound: true);
         m_MainScene_MouseRightClick = m_MainScene.FindAction("MouseRightClick", throwIfNotFound: true);
+        m_MainScene_SwitchWeaponPositive = m_MainScene.FindAction("SwitchWeaponPositive", throwIfNotFound: true);
+        m_MainScene_SwitchWeaponNegative = m_MainScene.FindAction("SwitchWeaponNegative", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -243,6 +283,8 @@ public class @MainInput : IInputActionCollection, IDisposable
     private readonly InputAction m_MainScene_Shooting;
     private readonly InputAction m_MainScene_MouseDeltaX;
     private readonly InputAction m_MainScene_MouseRightClick;
+    private readonly InputAction m_MainScene_SwitchWeaponPositive;
+    private readonly InputAction m_MainScene_SwitchWeaponNegative;
     public struct MainSceneActions
     {
         private @MainInput m_Wrapper;
@@ -251,6 +293,8 @@ public class @MainInput : IInputActionCollection, IDisposable
         public InputAction @Shooting => m_Wrapper.m_MainScene_Shooting;
         public InputAction @MouseDeltaX => m_Wrapper.m_MainScene_MouseDeltaX;
         public InputAction @MouseRightClick => m_Wrapper.m_MainScene_MouseRightClick;
+        public InputAction @SwitchWeaponPositive => m_Wrapper.m_MainScene_SwitchWeaponPositive;
+        public InputAction @SwitchWeaponNegative => m_Wrapper.m_MainScene_SwitchWeaponNegative;
         public InputActionMap Get() { return m_Wrapper.m_MainScene; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -272,6 +316,12 @@ public class @MainInput : IInputActionCollection, IDisposable
                 @MouseRightClick.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseRightClick;
                 @MouseRightClick.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseRightClick;
                 @MouseRightClick.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnMouseRightClick;
+                @SwitchWeaponPositive.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponPositive;
+                @SwitchWeaponPositive.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponPositive;
+                @SwitchWeaponPositive.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponPositive;
+                @SwitchWeaponNegative.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponNegative;
+                @SwitchWeaponNegative.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponNegative;
+                @SwitchWeaponNegative.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponNegative;
             }
             m_Wrapper.m_MainSceneActionsCallbackInterface = instance;
             if (instance != null)
@@ -288,6 +338,12 @@ public class @MainInput : IInputActionCollection, IDisposable
                 @MouseRightClick.started += instance.OnMouseRightClick;
                 @MouseRightClick.performed += instance.OnMouseRightClick;
                 @MouseRightClick.canceled += instance.OnMouseRightClick;
+                @SwitchWeaponPositive.started += instance.OnSwitchWeaponPositive;
+                @SwitchWeaponPositive.performed += instance.OnSwitchWeaponPositive;
+                @SwitchWeaponPositive.canceled += instance.OnSwitchWeaponPositive;
+                @SwitchWeaponNegative.started += instance.OnSwitchWeaponNegative;
+                @SwitchWeaponNegative.performed += instance.OnSwitchWeaponNegative;
+                @SwitchWeaponNegative.canceled += instance.OnSwitchWeaponNegative;
             }
         }
     }
@@ -316,5 +372,7 @@ public class @MainInput : IInputActionCollection, IDisposable
         void OnShooting(InputAction.CallbackContext context);
         void OnMouseDeltaX(InputAction.CallbackContext context);
         void OnMouseRightClick(InputAction.CallbackContext context);
+        void OnSwitchWeaponPositive(InputAction.CallbackContext context);
+        void OnSwitchWeaponNegative(InputAction.CallbackContext context);
     }
 }
