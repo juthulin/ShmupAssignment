@@ -76,3 +76,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7118683891312424572}
   maxClipSize: 100
+  inaccuracy: 3
+  fireRate: 0
+  _timeSinceLastShot: 0
+  _timeBetweenShots: 0.01
+  fireWeapon: 0

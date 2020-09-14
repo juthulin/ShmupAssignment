@@ -5,26 +5,26 @@ namespace JT
 {
 	public class ShootingBehaviour : MonoBehaviour
 	{
-		//private Transform _thisTransform;
 		private IWeapon _currentWeapon;
 		private readonly List<WeaponType> _weapons = new List<WeaponType>();
 		[SerializeField] private WeaponContainer weaponContainer;
-
-		//public bool RightMButtonIsHeld { get; set; }
+		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
 
 		private void Awake()
 		{
-			//_thisTransform = transform;
 			_weapons.Add(WeaponType.DefaultBlaster);
 			EquipWeapon(_weapons[0]);
 		}
 
-		public void CheckToFireWeapon(bool shouldFire)
+		private void Update()
 		{
-			if (shouldFire)
-			{
-				_currentWeapon?.Shoot();
-			}
+			_currentWeapon.SetRateOfFire(Mathf.Abs(revolvingWeaponBehaviour.RevolvingSpeed));
+		}
+
+		public void CheckToFireWeapon(in bool shouldFire)
+		{
+			revolvingWeaponBehaviour.Firing = shouldFire;
+			_currentWeapon?.Shoot(shouldFire);
 		}
 
 		private void EquipWeapon(WeaponType weaponType)

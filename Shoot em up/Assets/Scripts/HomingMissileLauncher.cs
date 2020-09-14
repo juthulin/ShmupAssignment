@@ -10,11 +10,16 @@ namespace JT
 		public WeaponType WeaponType => WeaponType.HomingMissile;
 		public int MaxClipSize => maxClipSize;
 		
-		public void Shoot()
+		public void Shoot(bool shouldFire)
 		{
 			ShootBullet();
 		}
-		
+
+		public void SetRateOfFire(float rateOfFire)
+		{
+			
+		}
+
 		private void ShootBullet()
 		{
 			string itemTag = "PlayerRocket";

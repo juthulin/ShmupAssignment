@@ -7,6 +7,9 @@ namespace JT
 		
 		int MaxClipSize { get; }
 		
-		void Shoot();
+		void Shoot(bool shouldFire);
+
+		void SetRateOfFire(float rateOfFire);
+		
 	}
 }

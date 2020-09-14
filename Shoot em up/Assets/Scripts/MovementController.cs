@@ -7,8 +7,6 @@ namespace JT
 		[SerializeField] private Rigidbody2D _rigidbody;
 
 		[SerializeField] private float movementForce = 12f;
-		
-		public float angularVelocity;
 
 		public Vector2 MovementVector { get; set; }
 
@@ -21,7 +19,6 @@ namespace JT
 		{
 			_rigidbody.AddForce(input * movementForce, ForceMode2D.Force);
 			//_rigidbody.velocity = input * movementForce;
-			angularVelocity = _rigidbody.angularVelocity;
 		}
 	}
 }

@@ -16,5 +16,10 @@ namespace JT
 		{
 			gameObject.SetActive(false);
 		}
+
+		private void OnDisable()
+		{
+			rigidbody.velocity = Vector2.zero;
+		}
 	}
 }

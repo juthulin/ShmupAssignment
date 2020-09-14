@@ -8,6 +8,7 @@ namespace JT
 		private MainInput _controls;
 		[SerializeField] private MovementController movementController;
 		[SerializeField] private ShootingBehaviour shootingBehaviour;
+		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
 
 		private void Awake()
 		{
@@ -17,8 +18,8 @@ namespace JT
 			_controls.MainScene.Movement.canceled += PlayerMovement;
 			_controls.MainScene.Shooting.performed += Shooting;
 			_controls.MainScene.Shooting.canceled += Shooting;
-			// _controls.MainScene.MouseDeltaX.performed += MouseDeltaX;
-			// _controls.MainScene.MouseDeltaX.canceled += MouseDeltaX;
+			_controls.MainScene.MouseDeltaX.performed += MouseDeltaX;
+			_controls.MainScene.MouseDeltaX.canceled += MouseDeltaX;
 			// _controls.MainScene.MouseRightClick.performed += RightClick;
 			// _controls.MainScene.MouseRightClick.canceled += RightClick;
 			_controls.MainScene.SwitchWeaponPositive.performed += SwitchWeaponPositive;
@@ -42,10 +43,10 @@ namespace JT
 			shootingBehaviour.CheckToFireWeapon(context.ReadValueAsButton());
 		}
 
-		// private void MouseDeltaX(InputAction.CallbackContext context)
-		// {
-		// 	shootingBehaviour.RotateSpinner(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
-		// }
+		private void MouseDeltaX(InputAction.CallbackContext context)
+		{
+			revolvingWeaponBehaviour.SetRevolvingSpeed(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
+		}
 
 		// private void RightClick(InputAction.CallbackContext context)
 		// {
