@@ -6,7 +6,7 @@ namespace JT
 	public class PlayerBrain : MonoBehaviour
 	{
 		private MainInput _controls;
-		[SerializeField] private MovementController movementController;
+		[SerializeField] private RigidbodyMovementController rigidbodyMovementController;
 		[SerializeField] private ShootingBehaviour shootingBehaviour;
 		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
 
@@ -35,7 +35,7 @@ namespace JT
 
 		private void PlayerMovement(InputAction.CallbackContext context)
 		{
-			movementController.MovementVector = context.ReadValue<Vector2>();
+			rigidbodyMovementController.MovementVector = context.ReadValue<Vector2>();
 		}
 
 		private void Shooting(InputAction.CallbackContext context)

@@ -4,22 +4,31 @@ namespace JT
 {
 	public class tmp_BulletBehaviour : MonoBehaviour
 	{
-		public Rigidbody2D rigidbody;
-		public float bulletVelocity;
+		[SerializeField] private Rigidbody2D thisRigidbody;
+		[SerializeField] private float bulletVelocity;
+		public int damageAmount = 10;
 
 		private void OnEnable()
 		{
-			rigidbody.velocity = transform.up * bulletVelocity;
+			thisRigidbody.velocity = transform.up * bulletVelocity;
 		}
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
+			if (other.CompareTag("Border"))
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+			
+			var hit = other.GetComponent<HealthSystem>();
+			hit.TakeDamage(damageAmount);
 			gameObject.SetActive(false);
 		}
 
 		private void OnDisable()
 		{
-			rigidbody.velocity = Vector2.zero;
+			thisRigidbody.velocity = Vector2.zero;
 		}
 	}
 }

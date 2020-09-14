@@ -2,7 +2,7 @@
 
 namespace JT 
 {
-	public class MovementController : MonoBehaviour
+	public class RigidbodyMovementController : MonoBehaviour
 	{
 		[SerializeField] private Rigidbody2D _rigidbody;
 

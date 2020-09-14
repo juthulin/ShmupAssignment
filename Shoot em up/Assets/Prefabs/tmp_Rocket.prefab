@@ -83,8 +83,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d723a5261774944f96855ef13d0250c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 9174055643999068488}
+  thisRigidbody: {fileID: 9174055643999068488}
   bulletVelocity: 10
+  damageAmount: 0
 --- !u!1 &9174055646020222247
 GameObject:
   m_ObjectHideFlags: 0
