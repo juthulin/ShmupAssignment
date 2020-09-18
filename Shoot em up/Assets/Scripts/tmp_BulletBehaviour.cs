@@ -21,8 +21,11 @@ namespace JT
 				return;
 			}
 			
-			var hit = other.GetComponent<HealthSystem>();
-			hit.TakeDamage(damageAmount);
+			HealthSystem hit = other.GetComponent<HealthSystem>();
+			if (hit != null)
+			{
+				hit.TakeDamage(damageAmount);
+			}
 			gameObject.SetActive(false);
 		}
 

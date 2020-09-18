@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace JT 
 {
 	public class HealthSystem : MonoBehaviour
 	{
-		[SerializeField] private int _currentHealth;
+		private int _currentHealth;
 		[SerializeField] private int maxHealth;
+		public UnityEvent deathEvent;
 
 		public int CurrentHealth
 		{
@@ -24,7 +26,7 @@ namespace JT
 			}
 		}
 
-		private void Awake()
+		private void OnEnable()
 		{
 			CurrentHealth = maxHealth;
 		}
@@ -36,7 +38,7 @@ namespace JT
 
 		private void Die()
 		{
-			gameObject.SetActive(false);
+			deathEvent?.Invoke();
 		}
 	}
 }

@@ -9,13 +9,24 @@ namespace JT
 		public int amountToPool;
 		public bool shouldExpand = default;
 		public GameObject objectToPool;
+		public ObjectType objectType;
 	}
+
+	[System.Serializable]
+	public class Pool
+	{
+		public List<GameObject> pooledObjects = new List<GameObject>();
+	}
+	
+	[DefaultExecutionOrder(-50)]
 	public class ObjectPooler : MonoBehaviour
 	{
-		public static ObjectPooler Instance { get; private set; }
+		private readonly Dictionary<ObjectType, Pool> _mappedPools = new Dictionary<ObjectType, Pool>();
 
-		public List<ObjectPoolItem> itemsToPool;
-		public List<GameObject> pooledObjects;
+		[SerializeField] private List<ObjectPoolItem> itemsToPool;
+		[SerializeField] private List<Pool> objectPools;
+		
+		public static ObjectPooler Instance { get; private set; }
 
 		private void Awake()
 		{
@@ -31,42 +42,47 @@ namespace JT
 
 		private void Start()
 		{
-			pooledObjects = new List<GameObject>();
+			objectPools = new List<Pool>();
+			
 			foreach (ObjectPoolItem item in itemsToPool)
 			{
+				Pool pool = new Pool();
+				objectPools.Add(pool);
+				_mappedPools.Add(item.objectType, pool);
+				
 				for (int i = 0; i < item.amountToPool; i++)
 				{
 					GameObject obj = Instantiate(item.objectToPool, transform);
 					obj.SetActive(false);
-					pooledObjects.Add(obj);
+					pool.pooledObjects.Add(obj);
 				}
 			}
 		}
 
-		public GameObject GetPooledObject(string itemTag)
+		public GameObject GetPooledObject (in ObjectType objectType)
 		{
-			for (int i = 0; i < pooledObjects.Count; i++)
+			if (!_mappedPools.ContainsKey(objectType)) return null;
+
+			List<GameObject> specifiedPool = _mappedPools[objectType].pooledObjects;
+
+			for (int i = 0; i < specifiedPool.Count; i++)
 			{
-				if(!pooledObjects[i].activeInHierarchy && pooledObjects[i].tag == itemTag)
+				if (!specifiedPool[i].activeInHierarchy)
 				{
-					return pooledObjects[i];
+					return specifiedPool[i];
 				}
 			}
 
 			foreach (ObjectPoolItem item in itemsToPool)
 			{
-				if (item.objectToPool.tag == itemTag)
-				{
-					if (item.shouldExpand)
-					{
-						GameObject obj = Instantiate(item.objectToPool, transform);
-						obj.SetActive(false);
-						pooledObjects.Add(obj);
-						return obj;
-					}
-				}
+				if (item.objectType != objectType || !item.shouldExpand) continue;
+				
+				GameObject obj = Instantiate(item.objectToPool, transform);
+				obj.SetActive(false);
+				specifiedPool.Add(obj);
+				return obj;
 			}
-
+			
 			return null;
 		}
 	}

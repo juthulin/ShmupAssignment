@@ -10,8 +10,19 @@ namespace JT
 		[SerializeField] private ShootingBehaviour shootingBehaviour;
 		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
 
+		public static PlayerBrain Instance { get; private set; }
+		
 		private void Awake()
 		{
+			if (Instance != null && Instance != this)
+			{
+				Destroy(gameObject);
+			}
+			else
+			{
+				Instance = this;
+			}
+			
 			_controls = new MainInput();
 
 			_controls.MainScene.Movement.performed += PlayerMovement;
@@ -20,8 +31,6 @@ namespace JT
 			_controls.MainScene.Shooting.canceled += Shooting;
 			_controls.MainScene.MouseDeltaX.performed += MouseDeltaX;
 			_controls.MainScene.MouseDeltaX.canceled += MouseDeltaX;
-			// _controls.MainScene.MouseRightClick.performed += RightClick;
-			// _controls.MainScene.MouseRightClick.canceled += RightClick;
 			_controls.MainScene.SwitchWeaponPositive.performed += SwitchWeaponPositive;
 			_controls.MainScene.SwitchWeaponNegative.performed += SwitchWeaponNegative;
 
@@ -47,11 +56,6 @@ namespace JT
 		{
 			revolvingWeaponBehaviour.SetRevolvingSpeed(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
 		}
-
-		// private void RightClick(InputAction.CallbackContext context)
-		// {
-		// 	shootingBehaviour.RightMButtonIsHeld = context.ReadValueAsButton();
-		// }
 
 		private void SwitchWeaponPositive(InputAction.CallbackContext context)
 		{

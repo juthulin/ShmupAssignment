@@ -8,13 +8,12 @@ namespace JT
 		private float _timeBetweenShots;
 		private bool _fireWeapon;
 		private float _fireRate;
-		
+
+		[SerializeField] private ObjectType objectToFire;
 		[SerializeField] private Transform firePoint;
-		[SerializeField] private int maxClipSize = 100;
 		[SerializeField] private float inaccuracy;
 		
 		public WeaponType WeaponType => WeaponType.DefaultBlaster;
-		public int MaxClipSize => maxClipSize;
 
 		private void Update()
 		{
@@ -22,8 +21,7 @@ namespace JT
 			
 			_timeSinceLastShot += Time.deltaTime;
 
-			if (!(_timeSinceLastShot > _timeBetweenShots)) return;
-			if (!_fireWeapon) return;
+			if (!(_timeSinceLastShot > _timeBetweenShots) || !_fireWeapon) return;
 			ShootBullet();
 			_timeSinceLastShot = 0f;
 		}
@@ -46,12 +44,14 @@ namespace JT
 
 		private void ShootBullet()
 		{
-			string itemTag = "PlayerBullet";
-			GameObject bullet = ObjectPooler.Instance.GetPooledObject(itemTag);
+			GameObject bullet = ObjectPooler.Instance.GetPooledObject(objectToFire);
+			
 			bullet.transform.position = firePoint.position;
+			
 			float rnd = Random.Range(-inaccuracy, inaccuracy);
 			Vector3 direction = firePoint.rotation * new Vector3(0f, 0f, rnd);
 			bullet.transform.eulerAngles = direction;
+			
 			bullet.SetActive(true);
 		}
 	}

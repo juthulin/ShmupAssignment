@@ -7,6 +7,7 @@ namespace JT
 	{
 		private IWeapon _currentWeapon;
 		private readonly List<WeaponType> _weapons = new List<WeaponType>();
+		private bool _shouldFire = default;
 		[SerializeField] private WeaponContainer weaponContainer;
 		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
 
@@ -23,8 +24,9 @@ namespace JT
 
 		public void CheckToFireWeapon(in bool shouldFire)
 		{
-			revolvingWeaponBehaviour.Firing = shouldFire;
-			_currentWeapon?.Shoot(shouldFire);
+			_shouldFire = shouldFire;
+			revolvingWeaponBehaviour.Firing = _shouldFire;
+			_currentWeapon?.Shoot(_shouldFire);
 		}
 
 		private void EquipWeapon(WeaponType weaponType)
@@ -36,6 +38,7 @@ namespace JT
 			}
 
 			_currentWeapon = Instantiate(weaponContainer.GetWeapon(weaponType), transform, false).GetComponent<IWeapon>();
+			_currentWeapon?.Shoot(_shouldFire);
 		}
 
 		public void PickUpWeapon(WeaponType weaponType)
