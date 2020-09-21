@@ -65,6 +65,14 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""UseEquipment"",
+                    ""type"": ""Button"",
+                    ""id"": ""933b7022-cce3-4aad-afb2-78fd610fd28e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -188,6 +196,17 @@ public class @MainInput : IInputActionCollection, IDisposable
                     ""action"": ""SwitchWeaponNegative"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb0f9621-e221-4416-a7b3-b690f5941575"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""UseEquipment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -230,6 +249,7 @@ public class @MainInput : IInputActionCollection, IDisposable
         m_MainScene_MouseRightClick = m_MainScene.FindAction("MouseRightClick", throwIfNotFound: true);
         m_MainScene_SwitchWeaponPositive = m_MainScene.FindAction("SwitchWeaponPositive", throwIfNotFound: true);
         m_MainScene_SwitchWeaponNegative = m_MainScene.FindAction("SwitchWeaponNegative", throwIfNotFound: true);
+        m_MainScene_UseEquipment = m_MainScene.FindAction("UseEquipment", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -285,6 +305,7 @@ public class @MainInput : IInputActionCollection, IDisposable
     private readonly InputAction m_MainScene_MouseRightClick;
     private readonly InputAction m_MainScene_SwitchWeaponPositive;
     private readonly InputAction m_MainScene_SwitchWeaponNegative;
+    private readonly InputAction m_MainScene_UseEquipment;
     public struct MainSceneActions
     {
         private @MainInput m_Wrapper;
@@ -295,6 +316,7 @@ public class @MainInput : IInputActionCollection, IDisposable
         public InputAction @MouseRightClick => m_Wrapper.m_MainScene_MouseRightClick;
         public InputAction @SwitchWeaponPositive => m_Wrapper.m_MainScene_SwitchWeaponPositive;
         public InputAction @SwitchWeaponNegative => m_Wrapper.m_MainScene_SwitchWeaponNegative;
+        public InputAction @UseEquipment => m_Wrapper.m_MainScene_UseEquipment;
         public InputActionMap Get() { return m_Wrapper.m_MainScene; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -322,6 +344,9 @@ public class @MainInput : IInputActionCollection, IDisposable
                 @SwitchWeaponNegative.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponNegative;
                 @SwitchWeaponNegative.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponNegative;
                 @SwitchWeaponNegative.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnSwitchWeaponNegative;
+                @UseEquipment.started -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnUseEquipment;
+                @UseEquipment.performed -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnUseEquipment;
+                @UseEquipment.canceled -= m_Wrapper.m_MainSceneActionsCallbackInterface.OnUseEquipment;
             }
             m_Wrapper.m_MainSceneActionsCallbackInterface = instance;
             if (instance != null)
@@ -344,6 +369,9 @@ public class @MainInput : IInputActionCollection, IDisposable
                 @SwitchWeaponNegative.started += instance.OnSwitchWeaponNegative;
                 @SwitchWeaponNegative.performed += instance.OnSwitchWeaponNegative;
                 @SwitchWeaponNegative.canceled += instance.OnSwitchWeaponNegative;
+                @UseEquipment.started += instance.OnUseEquipment;
+                @UseEquipment.performed += instance.OnUseEquipment;
+                @UseEquipment.canceled += instance.OnUseEquipment;
             }
         }
     }
@@ -374,5 +402,6 @@ public class @MainInput : IInputActionCollection, IDisposable
         void OnMouseRightClick(InputAction.CallbackContext context);
         void OnSwitchWeaponPositive(InputAction.CallbackContext context);
         void OnSwitchWeaponNegative(InputAction.CallbackContext context);
+        void OnUseEquipment(InputAction.CallbackContext context);
     }
 }

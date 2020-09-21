@@ -15,7 +15,7 @@ namespace JT
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
-			if (other.CompareTag("Border"))
+			if (other.CompareTag("Border") || other.CompareTag("Shield"))
 			{
 				gameObject.SetActive(false);
 				return;

@@ -9,6 +9,8 @@ namespace JT
 		[SerializeField] private int maxHealth;
 		public UnityEvent deathEvent;
 
+		public bool Invulnerable { get; set; } = false;
+
 		public int CurrentHealth
 		{
 			get => _currentHealth;
@@ -33,6 +35,7 @@ namespace JT
 
 		public void TakeDamage(int amount)
 		{
+			if (Invulnerable) return;
 			CurrentHealth += -amount;
 		}
 

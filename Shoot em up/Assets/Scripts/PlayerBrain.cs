@@ -6,9 +6,10 @@ namespace JT
 	public class PlayerBrain : MonoBehaviour
 	{
 		private MainInput _controls;
-		[SerializeField] private RigidbodyMovementController rigidbodyMovementController;
-		[SerializeField] private ShootingBehaviour shootingBehaviour;
-		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
+		[SerializeField] private RigidbodyMovementController playerRigidbodyMovementController;
+		[SerializeField] private ShootingBehaviour playerShootingBehaviour;
+		[SerializeField] private RevolvingWeaponBehaviour playerRevolvingWeaponBehaviour;
+		[SerializeField] private ShieldComponent playerShieldComponent;
 
 		public static PlayerBrain Instance { get; private set; }
 		
@@ -33,6 +34,7 @@ namespace JT
 			_controls.MainScene.MouseDeltaX.canceled += MouseDeltaX;
 			_controls.MainScene.SwitchWeaponPositive.performed += SwitchWeaponPositive;
 			_controls.MainScene.SwitchWeaponNegative.performed += SwitchWeaponNegative;
+			_controls.MainScene.UseEquipment.performed += ActivateEquipment;
 
 			_controls.Enable();
 		}
@@ -44,27 +46,37 @@ namespace JT
 
 		private void PlayerMovement(InputAction.CallbackContext context)
 		{
-			rigidbodyMovementController.MovementVector = context.ReadValue<Vector2>();
+			playerRigidbodyMovementController.MovementVector = context.ReadValue<Vector2>();
 		}
 
 		private void Shooting(InputAction.CallbackContext context)
 		{
-			shootingBehaviour.CheckToFireWeapon(context.ReadValueAsButton());
+			playerShootingBehaviour.CheckToFireWeapon(context.ReadValueAsButton());
 		}
 
 		private void MouseDeltaX(InputAction.CallbackContext context)
 		{
-			revolvingWeaponBehaviour.SetRevolvingSpeed(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
+			playerRevolvingWeaponBehaviour.SetRevolvingSpeed(Mathf.Clamp(context.ReadValue<float>(), -1f, 1f));
 		}
 
 		private void SwitchWeaponPositive(InputAction.CallbackContext context)
 		{
-			shootingBehaviour.SwitchWeapon(true);
+			playerShootingBehaviour.SwitchWeapon(true);
 		}
 
 		private void SwitchWeaponNegative(InputAction.CallbackContext context)
 		{
-			shootingBehaviour.SwitchWeapon(false);
+			playerShootingBehaviour.SwitchWeapon(false);
+		}
+
+		private void ActivateEquipment(InputAction.CallbackContext context)
+		{
+			playerShieldComponent.ActivateShield();
+		}
+		
+		public void OnDeath()
+		{
+			gameObject.SetActive(false);
 		}
 
 		private void OnDisable()

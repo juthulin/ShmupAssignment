@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5080117615442879165}
   - component: {fileID: 4966635244508752327}
   - component: {fileID: -3086837372576658529}
+  - component: {fileID: -7206733639340632416}
   - component: {fileID: 5452946464944276064}
   - component: {fileID: -4692864281939752470}
   m_Layer: 12
@@ -47,12 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a0199c793433d4c8871b4085d79d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyShootingBehaviour: {fileID: -7206733639340632416}
   transformMovementController: {fileID: -3086837372576658529}
   movementSpeed: 1
   verticalDirection: 1
   useSinMovement: 1
   amplitude: 5
   frequency: 3
+  randomMinValue: 1
+  randomMaxValue: 5
 --- !u!114 &-3086837372576658529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +69,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a49bec3a655874a8cfc707ce966b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7206733639340632416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4780495332299755141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e892e2a83ee07274d9793c33e005a37b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 3
 --- !u!114 &5452946464944276064
 MonoBehaviour:
   m_ObjectHideFlags: 0

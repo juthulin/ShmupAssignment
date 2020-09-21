@@ -4,6 +4,7 @@
 	{
 		Bullet,
 		HomingMissile,
-		Enemy
+		Enemy,
+		EnemyBullet
 	}
 }

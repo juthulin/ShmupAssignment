@@ -123,6 +123,105 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &122966015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 122966016}
+  - component: {fileID: 122966017}
+  - component: {fileID: 122966018}
+  m_Layer: 10
+  m_Name: ShieldPrefab
+  m_TagString: Shield
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &122966016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122966015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_Children: []
+  m_Father: {fileID: 577466741}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &122966017
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122966015}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ac76c871d4b051b4d8a43584de15fc55, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0, g: 0.98453856, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.2, y: 0.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!58 &122966018
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122966015}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1
 --- !u!1 &137607057
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +762,8 @@ GameObject:
   - component: {fileID: 577466744}
   - component: {fileID: 577466746}
   - component: {fileID: 577466747}
+  - component: {fileID: 577466748}
+  - component: {fileID: 577466749}
   - component: {fileID: 577466743}
   - component: {fileID: 577466742}
   m_Layer: 10
@@ -685,6 +786,7 @@ Transform:
   m_Children:
   - {fileID: 185344537}
   - {fileID: 547331644}
+  - {fileID: 122966016}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -751,9 +853,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b80572d2c69124ab957d516cd7ef0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbodyMovementController: {fileID: 577466744}
-  shootingBehaviour: {fileID: 577466746}
-  revolvingWeaponBehaviour: {fileID: 577466747}
+  playerRigidbodyMovementController: {fileID: 577466744}
+  playerShootingBehaviour: {fileID: 577466746}
+  playerRevolvingWeaponBehaviour: {fileID: 577466747}
+  playerShieldComponent: {fileID: 577466749}
 --- !u!114 &577466746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +885,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   revolvingWeaponTransform: {fileID: 547331644}
   slowdownFactor: 0.5
+--- !u!114 &577466748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577466740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd92b50c8f446a44c9eecf9b8bcd6eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 577466745}
+        m_TargetAssemblyTypeName: JT.PlayerBrain, Assembly-CSharp
+        m_MethodName: OnDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &577466749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577466740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71de1ccb56326e42a15d53ad40ba1bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealthSystem: {fileID: 577466748}
+  shieldPrefab: {fileID: 122966015}
+  shieldDuration: 5
 --- !u!1 &631156897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1425,10 @@ MonoBehaviour:
     shouldExpand: 1
     objectToPool: {fileID: 4780495332299755141, guid: 016a8e8237309e046bef4d4b2eea3f18, type: 3}
     objectType: 2
+  - amountToPool: 20
+    shouldExpand: 1
+    objectToPool: {fileID: 346410354369852800, guid: c73c811ecc5ad914abf476d6c6e71caf, type: 3}
+    objectType: 3
   objectPools: []
 --- !u!1001 &1787267740
 PrefabInstance:

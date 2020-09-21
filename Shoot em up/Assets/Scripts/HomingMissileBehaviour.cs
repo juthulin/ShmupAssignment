@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace JT 
@@ -7,8 +6,6 @@ namespace JT
 	public class HomingMissileBehaviour : MonoBehaviour
 	{
 		private Transform _target;
-		//private bool _hasTarget;
-		private bool _coroutineOnGoing;
 		[SerializeField] private Rigidbody2D thisRigidbody;
 		[SerializeField] private float missileVelocity;
 		[SerializeField] private float rotationSpeed;
@@ -26,14 +23,9 @@ namespace JT
 			if (_target == null || !_target.gameObject.activeInHierarchy)
 			{
 				_target = FindClosestTarget();
-				// if (!_coroutineOnGoing)
-				// {
-				// 	StartCoroutine(FindNewTarget());
-				// }
 				return;
 			}
 			Vector3 direction = _target.position - transform.position;
-			Debug.DrawRay(transform.position, direction, Color.green);
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 			Quaternion angleAxis = Quaternion.AngleAxis(angle, Vector3.forward);
 			transform.rotation = Quaternion.Slerp(transform.rotation, angleAxis, Time.deltaTime * rotationSpeed);
@@ -59,7 +51,6 @@ namespace JT
 		{
 			if (EnemySpawner.Instance.spawnedEnemies.Count == 0)
 			{
-				//_hasTarget = false;
 				return null;
 			}
 			
@@ -77,17 +68,7 @@ namespace JT
 					target = targets[i].transform;
 				}
 			}
-
-			//_hasTarget = true;
 			return target;
-		}
-
-		private IEnumerator FindNewTarget()
-		{
-			_coroutineOnGoing = true;
-			yield return new WaitForSeconds(0.1f);
-			FindClosestTarget();
-			_coroutineOnGoing = false;
 		}
 
 		private void OnDisable()
