@@ -133,17 +133,6 @@ public class @MainInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""418a22aa-6b42-44db-9230-36d9b6bd23a8"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Shooting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9ba0e2f6-9590-4b02-a18f-09f570a29655"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",

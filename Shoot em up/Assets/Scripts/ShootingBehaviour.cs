@@ -3,29 +3,33 @@ using UnityEngine;
 
 namespace JT 
 {
+	[RequireComponent(typeof(RevolvingWeaponBehaviour))]
 	public class ShootingBehaviour : MonoBehaviour
 	{
+		private RevolvingWeaponBehaviour _revolvingWeaponBehaviour;
 		private IWeapon _currentWeapon;
 		private readonly List<WeaponType> _weapons = new List<WeaponType>();
 		private bool _shouldFire = default;
+		
+		[Header("Required Component")]
 		[SerializeField] private WeaponContainer weaponContainer;
-		[SerializeField] private RevolvingWeaponBehaviour revolvingWeaponBehaviour;
 
 		private void Awake()
 		{
+			_revolvingWeaponBehaviour = GetComponent<RevolvingWeaponBehaviour>();
 			_weapons.Add(WeaponType.DefaultBlaster);
 			EquipWeapon(_weapons[0]);
 		}
 
 		private void Update()
 		{
-			_currentWeapon.SetRateOfFire(Mathf.Abs(revolvingWeaponBehaviour.RevolvingSpeed));
+			_currentWeapon.SetRateOfFire(Mathf.Abs(_revolvingWeaponBehaviour.RevolvingSpeed));
 		}
 
 		public void CheckToFireWeapon(in bool shouldFire)
 		{
 			_shouldFire = shouldFire;
-			revolvingWeaponBehaviour.Firing = _shouldFire;
+			_revolvingWeaponBehaviour.Firing = _shouldFire;
 			_currentWeapon?.Shoot(_shouldFire);
 		}
 
@@ -41,7 +45,7 @@ namespace JT
 			_currentWeapon?.Shoot(_shouldFire);
 		}
 
-		public void PickUpWeapon(WeaponType weaponType)
+		public void PickUpWeapon(in WeaponType weaponType)
 		{
 			if(_weapons.Contains(weaponType))
 			{
@@ -51,7 +55,7 @@ namespace JT
 			EquipWeapon(_weapons[_weapons.Count -1]);
 		}
 
-		public void SwitchWeapon(bool cyclePositive)
+		public void SwitchWeapon(in bool cyclePositive)
 		{
 			if (_currentWeapon == null)
 			{

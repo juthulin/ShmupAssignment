@@ -2,15 +2,21 @@
 
 namespace JT 
 {
-	public class tmp_BulletBehaviour : MonoBehaviour
+	[RequireComponent(typeof(Rigidbody2D))]
+	public class BulletBehaviour : MonoBehaviour
 	{
-		[SerializeField] private Rigidbody2D thisRigidbody;
+		private Rigidbody2D _thisRigidbody;
 		[SerializeField] private float bulletVelocity;
 		public int damageAmount = 10;
 
+		private void Awake()
+		{
+			_thisRigidbody = GetComponent<Rigidbody2D>();
+		}
+
 		private void OnEnable()
 		{
-			thisRigidbody.velocity = transform.up * bulletVelocity;
+			_thisRigidbody.velocity = transform.up * bulletVelocity;
 		}
 
 		private void OnTriggerEnter2D(Collider2D other)
@@ -31,7 +37,7 @@ namespace JT
 
 		private void OnDisable()
 		{
-			thisRigidbody.velocity = Vector2.zero;
+			_thisRigidbody.velocity = Vector2.zero;
 		}
 	}
 }

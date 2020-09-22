@@ -13,7 +13,7 @@ namespace JT
 			public WeaponType weaponType;
 			public GameObject weaponObject;
 		}
-
+		
 		[SerializeField] private List<WeaponMapping> mappedWeapons;
 
 		public GameObject GetWeapon(WeaponType weaponType)

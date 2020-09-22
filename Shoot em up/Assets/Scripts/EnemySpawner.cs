@@ -7,7 +7,7 @@ namespace JT
 	[System.Serializable]
 	public class SpawnPatterns
 	{
-		public int enemiesToSpawn;
+		public int amountToSpawn;
 		public float spawnDelay;
 	}
 	public class EnemySpawner : MonoBehaviour
@@ -16,8 +16,8 @@ namespace JT
 		
 		[SerializeField] private SpawnPatterns[] spawnPatterns;
 		[SerializeField] private Transform[] spawnPoints;
-		[SerializeField] private float waveCooldown = 1;
-		[SerializeField] private ObjectType objectType;
+		[SerializeField] private float waveCooldown = 3;
+		[SerializeField] private ObjectType objectType = ObjectType.Enemy;
 
 		public List<GameObject> spawnedEnemies = new List<GameObject>();
 		
@@ -37,14 +37,14 @@ namespace JT
 		
 		private void Start()
 		{
+			InitEnemySpawn();
+		}
+
+		private void InitEnemySpawn()
+		{
 			GetRandomNumber(out int rndPattern, spawnPatterns.Length);
 			GetRandomNumber(out int rndSpawn, spawnPoints.Length);
 			StartCoroutine(SpawnEnemy(rndPattern, rndSpawn));
-		}
-
-		private static void GetRandomNumber(out int x, in int max)
-		{
-			x = Random.Range(0, max);
 		}
 
 		private void GetEnemy(out GameObject enemy)
@@ -55,7 +55,7 @@ namespace JT
 		private IEnumerator SpawnEnemy(int rndPattern, int rndSpawn)
 		{
 			_spawnCounter = 0;
-			while (_spawnCounter < spawnPatterns[rndPattern].enemiesToSpawn)
+			while (_spawnCounter < spawnPatterns[rndPattern].amountToSpawn)
 			{
 				GetEnemy(out GameObject enemy);
 				spawnedEnemies.Add(enemy);
@@ -73,9 +73,12 @@ namespace JT
 		private IEnumerator WaveCooldown()
 		{
 			yield return new WaitForSeconds(waveCooldown);
-			GetRandomNumber(out int rndPattern, spawnPatterns.Length);
-			GetRandomNumber(out int rndSpawn, spawnPoints.Length);
-			StartCoroutine(SpawnEnemy(rndPattern, rndSpawn));
+			InitEnemySpawn();
+		}
+
+		private static void GetRandomNumber(out int x, in int max)
+		{
+			x = Random.Range(0, max);
 		}
 	}
 }

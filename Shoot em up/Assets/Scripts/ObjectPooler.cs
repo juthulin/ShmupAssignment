@@ -24,7 +24,7 @@ namespace JT
 		private readonly Dictionary<ObjectType, Pool> _mappedPools = new Dictionary<ObjectType, Pool>();
 
 		[SerializeField] private List<ObjectPoolItem> itemsToPool;
-		[SerializeField] private List<Pool> objectPools;
+		[SerializeField] private List<Pool> listOfPools;
 		
 		public static ObjectPooler Instance { get; private set; }
 
@@ -42,12 +42,12 @@ namespace JT
 
 		private void Start()
 		{
-			objectPools = new List<Pool>();
+			listOfPools = new List<Pool>();
 			
 			foreach (ObjectPoolItem item in itemsToPool)
 			{
 				Pool pool = new Pool();
-				objectPools.Add(pool);
+				listOfPools.Add(pool);
 				_mappedPools.Add(item.objectType, pool);
 				
 				for (int i = 0; i < item.amountToPool; i++)

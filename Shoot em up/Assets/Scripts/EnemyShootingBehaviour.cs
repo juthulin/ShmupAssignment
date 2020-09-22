@@ -4,7 +4,7 @@ namespace JT
 {
 	public class EnemyShootingBehaviour : MonoBehaviour
 	{
-		[SerializeField] private ObjectType objectType;
+		[SerializeField] private ObjectType objectType = ObjectType.EnemyBullet;
 		
 		public void Shoot(in float shootingAngle)
 		{

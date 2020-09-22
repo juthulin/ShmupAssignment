@@ -3,18 +3,21 @@ using UnityEngine;
 
 namespace JT 
 {
+	[RequireComponent(typeof(HealthSystem))]
 	public class ShieldComponent : MonoBehaviour
 	{
+		private HealthSystem _playerHealthSystem;
 		private bool _shieldCanActivate;
-		[Header("Required Components")]
-		[SerializeField] private HealthSystem playerHealthSystem;
-		[Space]
+		
+		[Header("Required Component")]
 		[SerializeField] private GameObject shieldPrefab;
+		[Space]
 		[SerializeField] private float shieldDuration = 5f;
 		[SerializeField] private float shieldCooldown = 5f;
 		
 		private void Awake()
 		{
+			_playerHealthSystem = GetComponent<HealthSystem>();
 			_shieldCanActivate = true;
 			shieldPrefab.SetActive(false);
 		}
@@ -28,12 +31,13 @@ namespace JT
 		private IEnumerator ShieldActive()
 		{
 			_shieldCanActivate = false;
-			playerHealthSystem.Invulnerable = true;
+			
+			_playerHealthSystem.Invulnerable = true;
 			shieldPrefab.SetActive(true);
 			
 			yield return new WaitForSeconds(shieldDuration);
 			
-			playerHealthSystem.Invulnerable = false;
+			_playerHealthSystem.Invulnerable = false;
 			shieldPrefab.SetActive(false);
 
 			StartCoroutine(ShieldCooldown());

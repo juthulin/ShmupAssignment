@@ -19,12 +19,12 @@ namespace JT
 			_transform.position += InputVector3 * (MovementSpeed * Time.deltaTime);
 		}
 		
-		public void SetMovementVector(Vector2 input)
+		public void SetMovementVector(in Vector2 input)
 		{
 			InputVector3 = input;
 		}
 
-		public void SetMovementSpeed(float movementSpeed)
+		public void SetMovementSpeed(in float movementSpeed)
 		{
 			MovementSpeed = -movementSpeed;
 		}

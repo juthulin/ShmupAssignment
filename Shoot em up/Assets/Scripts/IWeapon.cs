@@ -5,9 +5,9 @@ namespace JT
 	{
 		WeaponType WeaponType { get; }
 
-		void Shoot(bool shouldFire);
+		void Shoot(in bool shouldFire);
 
-		void SetRateOfFire(float rateOfFire);
+		void SetRateOfFire(in float rateOfFire);
 		
 	}
 }

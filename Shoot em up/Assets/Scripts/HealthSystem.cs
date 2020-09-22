@@ -27,7 +27,7 @@ namespace JT
 					_currentHealth = value;
 			}
 		}
-
+		
 		private void OnEnable()
 		{
 			CurrentHealth = maxHealth;

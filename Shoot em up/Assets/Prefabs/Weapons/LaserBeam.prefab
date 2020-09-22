@@ -46,8 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 5812158580409090185}
-  lineRenderer: {fileID: 8173125826238428303}
-  maxClipSize: 50
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  laserWidth: 1
+  damageAmount: 10
+  rateOfFire: 0.2
 --- !u!120 &8173125826238428303
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +71,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 2d2015185aba8bf41b5a7981223519e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

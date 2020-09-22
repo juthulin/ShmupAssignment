@@ -6,6 +6,7 @@ namespace JT
 	public class PlayerBrain : MonoBehaviour
 	{
 		private MainInput _controls;
+		[Header("Required Components")]
 		[SerializeField] private RigidbodyMovementController playerRigidbodyMovementController;
 		[SerializeField] private ShootingBehaviour playerShootingBehaviour;
 		[SerializeField] private RevolvingWeaponBehaviour playerRevolvingWeaponBehaviour;

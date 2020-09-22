@@ -7,11 +7,14 @@ namespace JT
 		private float _timeBetweenShots = default;
 		private float _timeSinceLastShot = default;
 		private bool _fireWeapon = default;
-		private float _fireRate = default;
+		private float _rateOfFire = default;
 		private bool _fireLeft = default;
-		[SerializeField] private ObjectType objectToFire;
+		
+		[Header("Required Components")]
 		[SerializeField] private Transform firePointLeft;
 		[SerializeField] private Transform firePointRight;
+		[Space]
+		[SerializeField] private ObjectType objectToFire;
 
 		public WeaponType WeaponType => WeaponType.HomingMissile;
 
@@ -26,19 +29,19 @@ namespace JT
 			_timeSinceLastShot = 0f;
 		}
 
-		public void Shoot(bool shouldFire)
+		public void Shoot(in bool shouldFire)
 		{
 			_fireWeapon = shouldFire;
 		}
 
-		public void SetRateOfFire(float rateOfFire)
+		public void SetRateOfFire(in float rateOfFire)
 		{
-			_fireRate = rateOfFire * 0.3f;
+			_rateOfFire = rateOfFire * 0.3f;
 		}
 		
 		private float CalculateTimeBetweenShots()
 		{
-			float x = 60 / _fireRate;
+			float x = 60 / _rateOfFire;
 			return x;
 		}
 

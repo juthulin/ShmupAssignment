@@ -4,7 +4,9 @@ namespace JT
 {
 	public class RevolvingWeaponBehaviour : MonoBehaviour
 	{
+		[Header("Required Component")]
 		[SerializeField] private Transform revolvingWeaponTransform;
+		[Space]
 		[SerializeField, Range(0.1f, 1f)] private float slowdownFactor = 0.5f;
 		
 		public float RevolvingSpeed { get; private set; }
@@ -19,7 +21,7 @@ namespace JT
 			revolvingWeaponTransform.Rotate(Vector3.forward, RevolvingSpeed * Time.deltaTime);
 		}
 		
-		public void SetRevolvingSpeed(float mouseDelta)
+		public void SetRevolvingSpeed(in float mouseDelta)
 		{
 			if (Firing)
 			{

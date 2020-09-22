@@ -7,10 +7,12 @@ namespace JT
 		private float _timeSinceLastShot;
 		private float _timeBetweenShots;
 		private bool _fireWeapon;
-		private float _fireRate;
+		private float _rateOfFire;
 
-		[SerializeField] private ObjectType objectToFire;
+		[Header("Required Component")]
 		[SerializeField] private Transform firePoint;
+		[Space]
+		[SerializeField] private ObjectType objectToFire;
 		[SerializeField] private float inaccuracy;
 		
 		public WeaponType WeaponType => WeaponType.DefaultBlaster;
@@ -26,19 +28,19 @@ namespace JT
 			_timeSinceLastShot = 0f;
 		}
 
-		public void Shoot(bool shouldFire)
+		public void Shoot(in bool shouldFire)
 		{
 			_fireWeapon = shouldFire;
 		}
 
-		public void SetRateOfFire(float rateOfFire)
+		public void SetRateOfFire(in float rateOfFire)
 		{
-			_fireRate = rateOfFire;
+			_rateOfFire = rateOfFire;
 		}
 
 		private float CalculateTimeBetweenShots()
 		{
-			float x = 60 / _fireRate;
+			float x = 60 / _rateOfFire;
 			return x;
 		}
 

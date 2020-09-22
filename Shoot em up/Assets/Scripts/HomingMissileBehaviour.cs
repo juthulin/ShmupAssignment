@@ -3,13 +3,21 @@ using UnityEngine;
 
 namespace JT 
 {
+	[RequireComponent(typeof(Rigidbody2D))]
 	public class HomingMissileBehaviour : MonoBehaviour
 	{
 		private Transform _target;
-		[SerializeField] private Rigidbody2D thisRigidbody;
+		private Rigidbody2D _thisRigidbody;
+		private bool _hasTarget = false;
+		
 		[SerializeField] private float missileVelocity;
 		[SerializeField] private float rotationSpeed;
 		[SerializeField] private int damageAmount;
+
+		private void Awake()
+		{
+			_thisRigidbody = GetComponent<Rigidbody2D>();
+		}
 
 		private void OnEnable()
 		{
@@ -18,10 +26,11 @@ namespace JT
 
 		private void Update()
 		{
-			thisRigidbody.velocity = transform.up * missileVelocity;
+			_thisRigidbody.velocity = transform.up * missileVelocity;
 
-			if (_target == null || !_target.gameObject.activeInHierarchy)
+			if (!_hasTarget || !_target.gameObject.activeInHierarchy)
 			{
+				_hasTarget = false;
 				_target = FindClosestTarget();
 				return;
 			}
@@ -51,29 +60,31 @@ namespace JT
 		{
 			if (EnemySpawner.Instance.spawnedEnemies.Count == 0)
 			{
+				_hasTarget = false;
 				return null;
 			}
 			
 			List<GameObject> targets = EnemySpawner.Instance.spawnedEnemies;
 			Transform target = targets[0].transform;
 			
-			float shortest = 0f;
+			float shortestDistance = 1000f;
 			for (int i = 0; i < targets.Count; i++)
 			{
 				Vector2 direction = targets[i].transform.position - transform.position;
 				float distance = direction.magnitude;
-				if (shortest > distance || shortest == 0)
-				{
-					shortest = distance;
-					target = targets[i].transform;
-				}
+				
+				if (!(shortestDistance > distance)) continue;
+				shortestDistance = distance;
+				target = targets[i].transform;
 			}
+
+			_hasTarget = true;
 			return target;
 		}
 
 		private void OnDisable()
 		{
-			thisRigidbody.velocity = Vector2.zero;
+			_thisRigidbody.velocity = Vector2.zero;
 		}
 	}
 }
